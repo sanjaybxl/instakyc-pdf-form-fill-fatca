@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Res, Query } from '@nestjs/common';
+import { Controller, Get, Header, Res, Query, Post, Body } from '@nestjs/common';
 import { Response } from 'express';
 
 var hummus = require('hummus'),
@@ -13,15 +13,26 @@ export class AppController {
   @Get('/filledPdfForm')
   @Header('Content-Type', 'application/pdf')
   getFormFillPdf(@Query() params: any, @Res() res: Response): any {
+    this.startProcessing(params, res);
+  }
+
+  private startProcessing(params: any, res: Response) {
     const inStream = new hummus.PDFRStreamForFile(path.join(__dirname + '/../sample-forms/fatca-crs.fr.pdf'));
     const pdfWriter = hummus.createWriterToModify(
       inStream,
-      new hummus.PDFStreamForResponse(res)
+      new hummus.PDFStreamForResponse(res),
     );
     fillForm(pdfWriter, params);
     pdfWriter.end();
     res.send();
   }
+
+  @Post('/filledPdfForm')
+  @Header('Content-Type', 'application/pdf')
+  postFormFillPdf(@Body() params: any, @Res() res: Response): any {
+    this.startProcessing(params, res);
+  }
+
 
   @Get('/getFormFields')
   @Header('Content-Type', 'application/json; charset=utf-8')
