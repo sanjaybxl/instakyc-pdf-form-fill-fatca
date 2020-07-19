@@ -20,7 +20,7 @@
     "@nestjs/platform-express": "^6.7.2",
     "express": "^4.17.1",
     "hummus": "^1.0.94",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3"
